@@ -1,75 +1,96 @@
 <template>
-  <div>
-    <div class="person_title">
-      <h3>个人信息</h3>
-    </div>
-    <div class="demo-type">
-      <div>
-        <div class="avator-count">
-          <el-avatar :src="imageUrl"></el-avatar>
-        </div>
-        <p class="changeAvator">
-          <i class="el-icon-edit"></i>
-          <span @click="editAvatar">修改头像</span>
-        </p>
+  <div class="person_all">
+    <div class="person_left">
+      <div class="person_title">
+        <h3>个人信息</h3>
       </div>
-      <el-descriptions :column="1">
-        <el-descriptions-item label = "用户名 "> {{user.username}}</el-descriptions-item>
-        <el-descriptions-item label = "性别 "> {{user.gender}}</el-descriptions-item>
-        <el-descriptions-item label = "手机号 "> {{user.phone}}</el-descriptions-item>
-        <el-descriptions-item label = "邮箱 " v-if ="user.email"> {{user.email}}</el-descriptions-item>
-        <el-descriptions-item label = "邮箱 " v-else>
-          <el-input v-model="email" placeholder="请输入邮箱" prop = "email"></el-input>
-          <el-button @click = "sendmsg">
-            发送验证码
-          </el-button>      
-        </el-descriptions-item>
-      </el-descriptions>
-      <el-dialog title="修改头像" :visible.sync="editAvatarDialog" width="40%">
-        <el-row type="flex" justify="center">
-          <div class="cropper">
-            <vueCropper ref="cropper" :img="option.img" :outputSize="option.size" :outputType="option.outputType"
-              :info="option.info" :full="option.full" :canMove="option.canMove" :canMoveBox="option.canMoveBox"
-              :original="option.original" :autoCrop="option.autoCrop" :autoCropWidth="option.autoCropWidth"
-              :autoCropHeight="option.autoCropHeight" :fixedBox="option.fixedBox" @realTime="realTime"></vueCropper>
+      <div class="demo-type">
+        <div>
+          <div class="avator-count">
+            <el-avatar :src="imageUrl"></el-avatar>
           </div>
-          <div class="previewBox">
-            <div :style="previews.div" class="preview">
-              <img :src="previews.url" :style="previews.img">
+          <p class="changeAvator">
+            <i class="el-icon-edit"></i>
+            <span @click="editAvatar">修改头像</span>
+          </p>
+        </div>
+        <el-descriptions :column="1">
+          <el-descriptions-item label="用户名 "> {{ user.username }}</el-descriptions-item>
+          <el-descriptions-item label="性别 "> {{ user.gender }}</el-descriptions-item>
+          <el-descriptions-item label="手机号 "> {{ user.phone }}</el-descriptions-item>
+          <el-descriptions-item label="邮箱 " v-if="user.email"> {{ user.email }}</el-descriptions-item>
+          <el-descriptions-item label="邮箱 " v-else>
+            <el-input v-model="email" placeholder="请输入邮箱" prop="email"></el-input>
+            <el-button @click="sendmsg">
+              发送验证码
+            </el-button>
+          </el-descriptions-item>
+        </el-descriptions>
+        <el-dialog title="修改头像" :visible.sync="editAvatarDialog" width="40%">
+          <el-row type="flex" justify="center">
+            <div class="cropper">
+              <vueCropper ref="cropper" :img="option.img" :outputSize="option.size" :outputType="option.outputType"
+                :info="option.info" :full="option.full" :canMove="option.canMove" :canMoveBox="option.canMoveBox"
+                :original="option.original" :autoCrop="option.autoCrop" :autoCropWidth="option.autoCropWidth"
+                :autoCropHeight="option.autoCropHeight" :fixedBox="option.fixedBox" @realTime="realTime"></vueCropper>
             </div>
-            <el-row type="flex" justify="center">
-              <el-upload :headers="header" ref="upload" name="avator"
-                action="http://81.68.121.52:8000/api/changesuperavator" :show-file-list="false" :auto-upload="false"
-                :on-change="uploadImg" :on-success="success">
-                <el-button size="mini" type="primary"> 选择头像
-                </el-button>
-              </el-upload>
-            </el-row>
-            <br>
-            <el-row>
-              <el-button icon="el-icon-plus" circle size="mini" @click="changeScale(1)"></el-button>
-              <el-button icon="el-icon-minus" circle size="mini" @click="changeScale(-1)"></el-button>
-              <el-button icon="el-icon-download" circle size="mini" @click="down('blob')"></el-button>
-              <el-button icon="el-icon-refresh-left" circle size="mini" @click="rotateLeft"></el-button>
-              <el-button icon="el-icon-refresh-right" circle size="mini" @click="rotateRight"></el-button>
-            </el-row>
-          </div>
-        </el-row>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="editAvatarDialog = false">取 消</el-button>
-          <el-button type="primary" @click="saveEditAvatar">确 定</el-button>
-        </span>
-      </el-dialog>
+            <div class="previewBox">
+              <div :style="previews.div" class="preview">
+                <img :src="previews.url" :style="previews.img">
+              </div>
+              <el-row type="flex" justify="center">
+                <el-upload :headers="header" ref="upload" name="avator"
+                  action="http://81.68.121.52:8000/api/changesuperavator" :show-file-list="false" :auto-upload="false"
+                  :on-change="uploadImg" :on-success="success">
+                  <el-button size="mini" type="primary"> 选择头像
+                  </el-button>
+                </el-upload>
+              </el-row>
+              <br>
+              <el-row>
+                <el-button icon="el-icon-plus" circle size="mini" @click="changeScale(1)"></el-button>
+                <el-button icon="el-icon-minus" circle size="mini" @click="changeScale(-1)"></el-button>
+                <el-button icon="el-icon-download" circle size="mini" @click="down('blob')"></el-button>
+                <el-button icon="el-icon-refresh-left" circle size="mini" @click="rotateLeft"></el-button>
+                <el-button icon="el-icon-refresh-right" circle size="mini" @click="rotateRight"></el-button>
+              </el-row>
+            </div>
+          </el-row>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="editAvatarDialog = false">取 消</el-button>
+            <el-button type="primary" @click="saveEditAvatar">确 定</el-button>
+          </span>
+        </el-dialog>
+      </div>
+    </div>
+    <div class="person_right">
+      <div class="personchange_title">
+        <h3>修改信息</h3>
+      </div>
+      <div class="change_count">
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="修改密码" name="second">
+            <Password></Password>
+          </el-tab-pane>
+          <el-tab-pane label="修改邮箱" name="first">
+            <Email></Email>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import { VueCropper } from 'vue-cropper';
 import { mapState } from 'vuex';//辅助函数
+import Password from './password';
+import Email from './email'
 export default {
   name: "Home",
   components: {
     VueCropper,
+    Password,
+    Email
   },
   computed:{
     ...mapState(['user'])
@@ -78,7 +99,8 @@ export default {
     return {
       imageUrl: '',
       state: false,
-      email:"",
+      email:"", 
+      activeName: 'second', 
       header: {
         authorization: `Bearer ${this.$store.state.token}`
       },
@@ -105,6 +127,7 @@ export default {
     this.username = this.$store.state.user.username;
   },
   methods: {
+    //绑定邮箱
     async sendmsg(){
       let formdata = new FormData();
       console.log(this.email)
@@ -251,11 +274,11 @@ export default {
     },
     imgok() {
       this.statee = false;
-    }
-
-
+    },
+    handleClick(tab, event) {
+            console.log(tab, event);
+        }
   }
-
 }
 </script>
 <style >
@@ -320,7 +343,7 @@ h3 {
 }
 
 .demo-type {
-  width: 460px;
+  width: 360px;
   background: #fff;
   padding: 20px;
   color: #606266;
@@ -356,19 +379,71 @@ h3 {
   height: 260px;
 }
 .person_title{
-  width: 500px;
+  width: 400px;
 }
 .el-descriptions-item__container{
   display: flex;
   align-items: center;
 }
-.el-input__inner{
+.person_all .el-input__inner{
   width: 300px;
   height: 31px;
-  margin-right: 10px;
 }
 .el-button{
   padding: 7px 15px;
 }
-
+.person_all{
+  display: flex;
+  justify-content: space-between;
+}
+.person_right{
+  width: 850px;
+}
+.change_count{
+  background-color: #fff;
+  padding: 20px;
+  color: #606266;
+}
+.el-tabs__item,
+.el-step__title.is-process,
+.el-step__head.is-process ,
+.el-step__description.is-process{
+  color: #606266;
+}
+.changepass,
+.changeemail{
+  margin-top: 35px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.person_all .el-input__inner{
+  margin-bottom: 15px;
+  width: 500px;
+  height: 35px;
+}
+.person_all .el-input{
+  display: flex;
+  justify-content: center;
+}
+.demo-type,
+.change_count{
+  height: 450px;
+}
+.el-steps{
+  margin-top: 20px;
+}
+.button_count{
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+.aaaaa,
+.bbbbb{
+  display: flex;
+  justify-content: flex-start;
+}
+/* .el-tabs__nav-wrap::after{
+  width: 19% !important;
+} */
 </style>
