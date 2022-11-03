@@ -25,14 +25,21 @@ const ZfbOrder = () => import("@/views/ZfbOrder/index");
 const WxOrder = () => import("@/views/WxOrder/index");
 // logs
 const Logs = () => import("@/views/Logs/index");
+// person
+const Person = () => import("@/views/Person/index");
+// manager
+const Manager = () => import("@/views/Manager/index");
+const ManagerInsert = () => import("@/views/Manager/insert");
+
 
 const routes = [
   {
     path:'/',
     component:LayOut,
+    redirect:'/home',
     children:[
       {
-        path:'',
+        path:'home',
         component:Home,
         meta:{   //原信息
           title:'首页'
@@ -140,6 +147,41 @@ const routes = [
         component:Logs,
         meta:{   //原信息
           title:'登录日志'
+        }
+      },
+    ]
+  },
+  {
+    path:'/person',
+    component:LayOut,
+    redirect:'/person/index',
+    children:[
+      {
+        path:'index',
+        component:Person,
+        meta:{   //原信息
+          title:'个人中心'
+        }
+      },
+    ]
+  },
+  {
+    path:'/manager',
+    component:LayOut,
+    redirect:'/manager/index',
+    children:[
+      {
+        path:'index',
+        component:Manager,
+        meta:{   //原信息
+          title:'查询管理员'
+        }
+      },
+      {
+        path:'insert',
+        component:ManagerInsert,
+        meta:{   //原信息
+          title:'新增管理员'
         }
       },
     ]

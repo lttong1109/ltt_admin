@@ -1,7 +1,15 @@
 <template>
-    <h1>HOMe</h1>
+  <div>
+    <h1>首页</h1>
+  </div>
 </template>
+
 <script>
-export default {}
+  export default {
+    
+  }
 </script>
-<style></style>
+
+<style  scoped>
+
+</style>

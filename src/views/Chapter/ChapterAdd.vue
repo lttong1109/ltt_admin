@@ -1,14 +1,17 @@
 <template>
     <div class="mark" v-if="state">
         <div class="title_from">
-        <el-form class="vip_add" 
+        <el-form class="chapter_add" 
             ref="ruleForm"
             :rules="rules"
             label-position="right" 
             label-width="auto" 
             :model="formLabelAlign">
-            <el-form-item label="新增标题名称" prop="name">
-                <el-input v-model="formLabelAlign.name"></el-input>
+            <el-form-item label="一级标题id：">
+                {{Chapter_id}}
+            </el-form-item>
+            <el-form-item label="新增章节名称" prop="chapter_name">
+                <el-input v-model="formLabelAlign.chapter_name"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
@@ -31,10 +34,10 @@ export default{
         }
         return{
             formLabelAlign:{
-                name:""
+                chapter_name:""
             },
             rules:{
-                name:[{validator:validateName,trigger:"blur"}]
+                chapter_name:[{validator:validateName,trigger:"blur"}]
                 //      自定义函数               触发方式
             },
             // visiable:true
@@ -46,26 +49,34 @@ export default{
                 default(){
                     return false
                 }
+            },
+            Chapter_id:{
+                type:Number,
+                required:true
             }
     },
     // created(){
     //     this.visiable = this.state;
     // },
     methods:{
-        submitForm(name){
-            this.$refs[name].validate((state) => {
+        submitForm(chapter_name){
+            this.$refs[chapter_name].validate((state) => {
                 if(state){
-                    let name = this.formLabelAlign.name;
+                    let chapter_name = this.formLabelAlign.chapter_name;
+                    let pk = this.Chapter_id;
+                    console.log(pk)
                     let formData = new FormData();
-                    formData.append('name',name);
+                    formData.append('chapter_name',chapter_name);
+                    formData.append('pk',pk);
+
                     this.$http({   //发请求
-                        url:"/api/vip",
+                        url:"/api/chapter",
                         method:'POST',
                         data:formData
                     }).then(res => {
                         let response = res.data;
                         if (response.status == 'success'){
-                            this.formLabelAlign.name = "";
+                            this.formLabelAlign.chapter_name = "";
                             this.$emit('cancel');
                             this.$message({
                                 type:'success',
@@ -84,7 +95,7 @@ export default{
             })
         },
         cancelForm(){
-            this.formLabelAlign.name = "";
+            this.formLabelAlign.chapter_name = "";
             // this.visiable = false;
             this.$emit('cancel')
         }

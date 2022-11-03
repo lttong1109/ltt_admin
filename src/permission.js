@@ -1,6 +1,7 @@
 import router from '@/router';
 import cookie from 'js-cookie' ;
-import store from '@/store'
+import store from '@/store';
+import { Message } from 'element-ui'
 // 路由保安系统
 router.beforeEach(async(to,from,next) => {
     let token = store.state.token;
@@ -29,6 +30,16 @@ router.beforeEach(async(to,from,next) => {
             console.log(error);
         }
     }
+
+    
+    if(!store.state.user.email){
+        Message({
+            type:"warning",
+            message:"请先绑定邮箱在进行后续操作！"
+        })
+    }
+
+
     // 检查有没有个人信息
     if(!userProfile){ //如果没登
         if(to.path == '/login'){

@@ -3,23 +3,19 @@
         <div class="left">
             <span :class="className" @click="change"></span>
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item >{{this.$route.meta.title}}</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        {{this.isCollapse}}
+        <!-- {{this.isCollapse}} -->
         <div class="right">
             <el-dropdown trigger="click" @command="handleCommand"><!--trigger="click"点击事件-->
-                <span class="el-dropdown-link">
-                    <el-image :src="user.avator"  class="avator"></el-image>
-                    <i class="el-icon-arrow-down el-icon--right" style="margin-left=0px"></i>
+                <span class="el-dropdown-link" >
+                    <el-image :src="user.avator"  class="avator"  ></el-image>
+                    <!-- <i class="el-icon-arrow-down el-icon--right" style="margin-left=0px"></i> -->
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>{{user.username}}</el-dropdown-item>
-                    <el-dropdown-item>个人中心</el-dropdown-item>
-                    <el-dropdown-item>首页</el-dropdown-item>
-                    <el-dropdown-item>项目地址</el-dropdown-item>
-                    <el-dropdown-item disabled>Dos</el-dropdown-item>
-                    <el-dropdown-item divided command="letoff">退出登录</el-dropdown-item>
+                    <el-dropdown-item command = "personcenter">{{user.username}}</el-dropdown-item>
+                    <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
@@ -71,10 +67,12 @@ export default{
             this.$store.commit('changeIsCollapse')
         },
         handleCommand(command){
-            if(command == 'letoff'){
+            if(command == 'logout'){
                 this.$store.commit('removeToken'); //调用removeToken
                 this.$cookie.remove('rh_id'); //删除rh_id
                 this.$router.push('/login');  //跳转
+            }else if(command == 'personcenter'){
+                this.$router.push('/person/index');  //跳转         
             }
         }
 
@@ -88,9 +86,10 @@ export default{
 }
 #header .el-dropdown{
     height: inherit;
+    height: 40px;
     display: flex;
     align-items: center;
-    padding: 9px 10px;
+    padding: 10px 10px;
     cursor: pointer;
 }
 #header .el-dropdown:hover{
@@ -128,5 +127,8 @@ export default{
     border-radius: 10px;
     width: 40px;
     height: 40px;
+}
+.el-icon--right{
+    margin-left: 12px;
 }
 </style>

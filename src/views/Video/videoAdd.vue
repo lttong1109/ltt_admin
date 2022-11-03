@@ -6,9 +6,22 @@
             :rules="rules"
             label-position="right" 
             label-width="auto" 
-            :model="formLabelAlign">
-            <el-form-item label="新增标题名称" prop="name">
+            :model="formLabelAlign">   
+            <el-form-item label="视频" prop="video">
+                <el-upload 
+                    class="upload-demo" 
+                    action="https://jsonplaceholder.typicode.com/posts/" >
+                    <el-button size="small" type="primary">点击上传</el-button>
+                </el-upload>
+            </el-form-item>
+            <el-form-item label="视频名称" prop="name">
                 <el-input v-model="formLabelAlign.name"></el-input>
+            </el-form-item>
+            <el-form-item label="是否免费" prop="video_permission">
+                <el-select v-model="value" clearable placeholder="请选择">
+                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
@@ -19,7 +32,6 @@
     </div>
 </template>
 <script>
-// $chilren $parent $root $emit props ref注册 this.$refs去找你注册的这个组件
 export default{
     data(){
         const validateName = (rule,value,callback) => {
@@ -29,7 +41,15 @@ export default{
                 callback();
             }
         }
-        return{
+        return {
+            options: [{
+                value: '1',
+                label: '免费'
+            }, {
+                value: '',
+                label: '收费'
+            }],
+            value: '',
             formLabelAlign:{
                 name:""
             },
@@ -48,9 +68,6 @@ export default{
                 }
             }
     },
-    // created(){
-    //     this.visiable = this.state;
-    // },
     methods:{
         submitForm(name){
             this.$refs[name].validate((state) => {
@@ -58,8 +75,11 @@ export default{
                     let name = this.formLabelAlign.name;
                     let formData = new FormData();
                     formData.append('name',name);
+                    // formData.append('video',video);
+                    // formData.append('video_permission',video_permission);
+                    // formData.append('chapter_id ',"25");
                     this.$http({   //发请求
-                        url:"/api/vip",
+                        url:"/api/chapter_video",
                         method:'POST',
                         data:formData
                     }).then(res => {
@@ -87,7 +107,7 @@ export default{
             this.formLabelAlign.name = "";
             // this.visiable = false;
             this.$emit('cancel')
-        }
+        },
     }
 }
 </script>

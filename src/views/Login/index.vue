@@ -34,6 +34,7 @@
 </template>
 <script>
 export default {
+    name:"Login",
     data() {
         return {
             login: {
@@ -84,7 +85,7 @@ export default {
                 if (res.data.status == "error") {
                     this.$message.error(res.data.msg);
                 } else {
-                    // 将后端的Token存起来 方便后期使用 cookie
+                    // Token存起来
                     let date = new Date();
                     date.setHours(date.getHours() + 10);
                     this.$cookie.set('rh_id', res.data.token, { expires: date });
