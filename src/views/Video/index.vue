@@ -3,22 +3,8 @@
         <header class="Video_header">
             <div class="xuanze_count">
               <div class="xuanze">
-                <p>
-                  当前一级标题：
-                </p>
-                <el-select v-model="value">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
-              </div>
-              <div class="xuanze">
-                <p>
-                  当前章节：
-                </p>
-                <el-select v-model="value">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
+                <el-tree :data="choice"  @node-click="handleNodeClick" :props="defaultProps"></el-tree>
+                <!-- :props="defaultProps" -->
               </div>
             </div>
             <el-button type="primary" @click="videoAdd">新增视频</el-button>
@@ -43,26 +29,39 @@
 // import VideoAdd from './videoAdd';
 export default {
   name:"Video",
-    data() {
-        return {
-            videoData: [],
-            state: false,
-            fullscreenLoading: false,
-            options:[{
-              value: '选项1',
-              label: '黄金糕'
-              },
-            ],
-            value:''
+  data() {
+    return {
+      videoData: [],
+      state: false,
+      fullscreenLoading: false,
+      value: '',
+      choice: [{
+          label: '一级 1',
+          children: [{
+            label: '二级 1-1',
+            children: [{
+              label: '三级 1-1-1'
+            }]
+          }]
+        }],
+        defaultProps: {
+          children: 'children',
+          label: 'label'
         }
-    },
+    }
+  },
     components:{
         // VideoAdd,
     },
     created() {
         this.getList();
+        this.gettitle();
+        this.getchapter()
     },
     methods: {
+      handleNodeClick(data) {
+        console.log(data);
+      },
         getList() {
             this.$http({
                 method: "GET",
@@ -143,8 +142,6 @@ export default {
           cancelButtonText: '取消',
           type: 'denger'
         }).then(() => {
-          // let formData = new FormData();
-          // formData.append('pk',row.id);
           this.fullscreenLoading = true;
           this.$http({
             url: "/api/chapter_video",
@@ -180,11 +177,38 @@ export default {
         },
         cancel(){
           this.state = false;
-          // this.dialogFormVisible = false;
         },
         success(){
           this.rerenderTableData();
-        }
+        },
+      gettitle() {
+        this.$http({
+          url: "api/classify"
+        }).then(res => {
+          console.log(res.data);
+          let response = res.data;
+          if (response.status == 'success') {
+            this.titleData = response.data;
+            // console.log(response.data)
+          } else {
+            this.$message.error(response.msg);
+          }
+        })
+      },
+      // getchapter(){
+      //   this.$http({
+      //           method: "GET",
+      //           url: `/api/chapter?pk=${this.titleData.id}`,
+      //       }).then(res => {
+      //           console.log(res);
+      //           let response = res.data;
+      //           if (response.status == 'success') {
+      //               this.chapterData = response.data;
+      //           } else {
+      //               this.$message.error(response.msg);
+      //           }
+            // })
+      // }
     },
 }
 </script>
@@ -196,15 +220,5 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-.xuanze{
-    display: flex;
-    align-items: center;
-    color: #606266;
-    font-size: 14px;
-    margin-right: 20px;
-}
-.xuanze_count{
-  display: flex;
 }
 </style>

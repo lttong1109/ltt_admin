@@ -120,27 +120,28 @@ export default {
             })
         },
         //新邮箱绑定验证码
-        submitNewcode(){
-            // if(){
+        submitNewcode() {
+            if (/\w{4}$/.test(this.changeEmail.newecode)) {
                 this.$http({
-                method: "PUT",
-                url: "api/superbindnewemail",
-                data:`text=${this.changeEmail.newecode}`,
-                headers:{
-                'Content-Type':'application/x-www-form-urlencoded'
-                }
-            }).then(response => {
-                let res = response.data;
-                if (res.status == 'error') {
-                    this.$message.error(res.msg)
-                } else {
-                    this.$message({
-                        type: "success",
-                        message: res.msg
-                    })
-                    this.index = 4
-                }
-            })
+                    method: "PUT",
+                    url: "api/superbindnewemail",
+                    data: `text=${this.changeEmail.newecode}`,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).then(response => {
+                    let res = response.data;
+                    if (res.status == 'error') {
+                        this.$message.error(res.msg)
+                    } else {
+                        this.$message({
+                            type: "success",
+                            message: res.msg
+                        })
+                        this.index = 4
+                    }
+                })
+            }
         },
         ok(){
             this.changeEmail.oldemail=''

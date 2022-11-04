@@ -66,11 +66,11 @@ export default {
     data(){
         return {
             chapterData: [],
+            Chapter_value: 33,
             state: false,
             fullscreenLoading: false,
             tableData: [],
             value: '',
-            Chapter_value: 33,
             state: false,
             dialogFormVisible: false,
             form: {

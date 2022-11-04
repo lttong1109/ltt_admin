@@ -1,12 +1,17 @@
 <template>
     <div class="manager-insert">
+        <div class="up">
+            新增管理员
+        </div>
         <el-form ref = 'form' :rules = "rules" :model = "form" label-width = "80px">
-            <el-form-item label = "用户名" prop = "username">
-                <el-input v-model = "form.username"></el-input>
+            <el-form-item class="newuser" prop = "username" style="margin-left: 0;">
+                <el-input style = "width: 500px;" v-model = "form.username" placeholder="请输入用户名"></el-input>
             </el-form-item>
-            <el-form-item>
-                <el-button type = "primary" @click = "onSubmit">立即创建</el-button>
-            </el-form-item>
+            <!-- <el-form-item style="margin: 0;" > -->
+            <div class="anniu" >    
+                <el-button type = "info" @click = "onSubmit" plain>立即创建</el-button>
+            <!-- </el-form-item> -->
+            </div>
         </el-form>
     </div>
 </template>
@@ -71,4 +76,24 @@
     box-sizing: border-box;
     padding: 20px;
 }
+.up{
+    background: #304156;
+    color: rgb(191, 203, 217);
+    line-height: 50px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18.72px;
+    margin-bottom: 100px;
+}
+.newuser{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+.anniu{
+    /* text-align: center; */
+    display: flex;
+    justify-content: center;
+}
+
 </style>
