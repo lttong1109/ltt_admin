@@ -1,30 +1,17 @@
 <template>
     <div class="mark" v-if="state">
-        <div class="title_from">
-        <el-form class="video_add" 
+        <div class="model_from">
+        <el-form class="chapter_add" 
             ref="ruleForm"
             :rules="rules"
             label-position="right" 
             label-width="auto" 
-            :model="formLabelAlign">   
-            <el-form-item label="章节编号">
-                {{getchapterid}}
+            :model="formLabelAlign">
+            <el-form-item label="一级标题id：">
+                {{Chapter_id}}
             </el-form-item>
-            <el-form-item label="视频" prop="video">
-                <el-upload 
-                    class="upload-demo" 
-                    action="https://jsonplaceholder.typicode.com/posts/" >
-                    <el-button size="small" type="primary">点击上传</el-button>
-                </el-upload>
-            </el-form-item>
-            <el-form-item label="视频名称" prop="name">
-                <el-input v-model="formLabelAlign.name"></el-input>
-            </el-form-item>
-            <el-form-item label="是否免费" prop="video_permission">
-                <el-select v-model="value" clearable placeholder="请选择">
-                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                    </el-option>
-                </el-select>
+            <el-form-item label="新增模块名称" prop="model_name">
+                <el-input v-model="formLabelAlign.model_name"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
@@ -35,29 +22,22 @@
     </div>
 </template>
 <script>
+// $chilren $parent $root $emit props ref注册 this.$refs去找你注册的这个组件
 export default{
     data(){
         const validateName = (rule,value,callback) => {
             if(value == ""){
-                callback(new Error('请输入标题名称'));
+                callback(new Error('请输入模块名称'));
             }else{
                 callback();
             }
         }
-        return {
-            options: [{
-                value: '1',
-                label: '免费'
-            }, {
-                value: '',
-                label: '收费'
-            }],
-            value: '',
+        return{
             formLabelAlign:{
-                name:""
+                chapter_name:""
             },
             rules:{
-                name:[{validator:validateName,trigger:"blur"}]
+                chapter_name:[{validator:validateName,trigger:"blur"}]
                 //      自定义函数               触发方式
             },
             // visiable:true
@@ -70,29 +50,30 @@ export default{
                     return false
                 }
             },
-            getchapterid:{
+            Chapter_id:{
                 type:Number,
                 required:true
             }
     },
     methods:{
-        submitForm(name){
-            this.$refs[name].validate((state) => {
+        submitForm(chapter_name){
+            this.$refs[chapter_name].validate((state) => {
                 if(state){
-                    let name = this.formLabelAlign.name;
+                    let name = this.formLabelAlign.model_name;
+                    let classify = this.Chapter_id;
+                    // console.log(pk)
                     let formData = new FormData();
                     formData.append('name',name);
-                    // formData.append('video',video);
-                    // formData.append('video_permission',video_permission);
-                    // formData.append('chapter_id ',"25");
+                    formData.append('classify',classify);
+
                     this.$http({   //发请求
-                        url:"/api/chapter_video",
+                        url:"api/course",
                         method:'POST',
                         data:formData
                     }).then(res => {
                         let response = res.data;
                         if (response.status == 'success'){
-                            this.formLabelAlign.name = "";
+                            this.formLabelAlign.model_name = "";
                             this.$emit('cancel');
                             this.$message({
                                 type:'success',
@@ -111,15 +92,14 @@ export default{
             })
         },
         cancelForm(){
-            this.formLabelAlign.name = "";
-            // this.visiable = false;
+            this.formLabelAlign.chapter_name = "";
             this.$emit('cancel')
-        },
+        }
     }
 }
 </script>
 <style>
-.title_add .el-form-item__content{
+.model_add .el-form-item__content{
     margin-left: 0 !important;
 }
 .mark{
@@ -133,7 +113,7 @@ export default{
 }
 </style>
 <style scoped>
-.title_from{
+.model_from{
     width: 400px;
     position: absolute;
     top: 50%;

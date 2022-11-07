@@ -150,18 +150,13 @@ export default {
       },
       handleEdit(index,row) {
         this.dialogFormVisible = true
-        this.vipindex=index;
         let newvipData = this.vipData[index];
-        // let keys = Object.keys(this.form);
         this.form.name = newvipData.name;
         this.form.id = newvipData.id;
         this.form.expires = newvipData.expires;
         this.form.description = newvipData.description;
         this.form.origin_price = newvipData.origin_price;
         this.form.price = newvipData.price;
-        console.log(newvipData)
-        console.log(this)
-      
       },
       vipupdate(index,row){
         console.log(this.form.name)
@@ -248,6 +243,7 @@ export default {
         });
       },
 
+      
       vipAdd(){
         this.state = true;
       },

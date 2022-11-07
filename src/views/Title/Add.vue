@@ -59,7 +59,7 @@ export default{
                     let formData = new FormData();
                     formData.append('name',name);
                     this.$http({   //发请求
-                        url:"/api/vip",
+                        url:"api/classify",
                         method:'POST',
                         data:formData
                     }).then(res => {
@@ -69,7 +69,7 @@ export default{
                             this.$emit('cancel');
                             this.$message({
                                 type:'success',
-                                message:`${response.msg}:${response.title}`
+                                message:`${response.msg}`
                             })
                             this.$emit('success')
                         }else{

@@ -54,7 +54,7 @@ export default new VueX.Store({
         //     state.chapter.name = payload.name;
         //     state.chapter.create_time = payload.create_time;
         //     state.chapter.update_time = payload.update_time;
-        // }
+        // }    
     },
     actions:{
         getUserProfile({ commit }){  //发请求
@@ -99,7 +99,7 @@ export default new VueX.Store({
         //         })
         //     })
         // },
-    }
+    },
 })
 // actions 存放异步操作
 // mutations 存放同步操作

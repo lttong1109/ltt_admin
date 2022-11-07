@@ -110,6 +110,18 @@ export default {
         }
     }
 }
+
+
+
+// github上创建好库后
+// cd todolist1/
+// echo "# todolist" >> README.md
+// git init
+// git add README.md
+// git commit -m "first commit"
+// git branch -M main
+// git remote add origin https://github.com/lttong1109/ltt_admin.git
+// git push -u origin main
 </script>
 
 <style scoped>
@@ -120,3 +132,6 @@ export default {
     margin-bottom: 10px;
 }
 </style>
+
+
+

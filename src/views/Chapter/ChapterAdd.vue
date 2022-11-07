@@ -80,7 +80,7 @@ export default{
                             this.$emit('cancel');
                             this.$message({
                                 type:'success',
-                                message:`${response.msg}:${response.title}`
+                                message:`${response.msg}`
                             })
                             this.$emit('success')
                         }else{
