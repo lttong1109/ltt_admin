@@ -10,13 +10,6 @@
             <el-form-item label="章节编号">
                 {{getchapterid}}
             </el-form-item>
-            <el-form-item label="视频" prop="video">
-                <el-upload 
-                    class="upload-demo" 
-                    action="https://jsonplaceholder.typicode.com/posts/" >
-                    <el-button size="small" type="primary">点击上传</el-button>
-                </el-upload>
-            </el-form-item>
             <el-form-item label="视频名称" prop="name">
                 <el-input v-model="formLabelAlign.name"></el-input>
             </el-form-item>
@@ -26,9 +19,25 @@
                     </el-option>
                 </el-select>
             </el-form-item>
+            <el-form-item label="添加视频" prop="video" class="addvideo">
+                <el-upload 
+                    class="upload-demo" 
+                    action="http://81.68.121.52:8000/api/chapter_video" 
+                    :show-file-list="false"
+                    :auto-upload="false"
+                    :data="videocont"
+                    name="video"
+                    ref="upload"
+                    :headers="header"
+                    :on-change="change"  
+                    :name_="name"
+                    :zs="video_permission"
+                >
+                    <el-button size="small" type="primary">点击上传</el-button>
+                </el-upload>
+            </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
-                <el-button @click="cancelForm('ruleForm')">取消</el-button>
+                <el-button type="primary"  @click="finish">完成</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -60,7 +69,27 @@ export default{
                 name:[{validator:validateName,trigger:"blur"}]
                 //      自定义函数               触发方式
             },
+            formLabelAlign:{
+                name:"",
+                chapter_id:"",
+                video_permission:"",
+                video:"",
+            },
+            videocont:{
+                name:'',
+                chapter_id:'',
+                video_permission:"",
+            },
+            header:{
+                authorization:`Bearer ${this.$store.state.token}`
+            },
             // visiable:true
+            // imageUrl:'',
+            fileList: [ ],
+            action:'',
+            name:"",
+            video_permission:"",
+            chapter_id:0
         }
     },
     props:{
@@ -76,44 +105,37 @@ export default{
             }
     },
     methods:{
-        submitForm(name){
-            this.$refs[name].validate((state) => {
-                if(state){
-                    let name = this.formLabelAlign.name;
-                    let formData = new FormData();
-                    formData.append('name',name);
-                    // formData.append('video',video);
-                    // formData.append('video_permission',video_permission);
-                    // formData.append('chapter_id ',"25");
-                    this.$http({   //发请求
-                        url:"/api/chapter_video",
-                        method:'POST',
-                        data:formData
-                    }).then(res => {
-                        let response = res.data;
-                        if (response.status == 'success'){
-                            this.formLabelAlign.name = "";
-                            this.$emit('cancel');
-                            this.$message({
-                                type:'success',
-                                message:`${response.msg}`
-                            })
-                            this.$emit('success')
-                        }else{
-                            this.$message.error(response.msg);
-                        }
-                    }).catch(error => {
-                        this.$message.error('接口错误');
-                    })
-                }else{
-                    return false;
-                }
-            })
+        finish(){
+            this.state = false
+            // this.change();
+            
+
         },
-        cancelForm(){
-            this.formLabelAlign.name = "";
-            // this.visiable = false;
-            this.$emit('cancel')
+        successs(res){
+            if(res.status == 'error'){
+                this.$message.error(res.msg)
+            }else{
+                this.$message({
+                type:"success",
+                message:'成功'
+            })
+            }  
+        },
+        change(file){
+            this.imageUrl = URL.createObjectURL(file.raw);
+            this.videocont['name']=this.formLabelAlign.name;
+            this.videocont['video_permission']=this.formLabelAlign.video_permission;
+            this.videocont['chapter_id']=this.getchapterid;
+            this.$refs.upload.submit()
+            console.log(file,1)
+        },
+        a(e){
+            let file = e.target.files[0];
+            var reader = new FileReader();
+            reader.onload = e => {
+                console.log(e.target.result);
+                this.src = e.target.result;
+            }
         },
     }
 }

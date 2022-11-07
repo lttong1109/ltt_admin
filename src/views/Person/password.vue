@@ -113,9 +113,8 @@ export default {
 
 
 
-// github上创建好库后
-// cd todolist1/
-// echo "# todolist" >> README.md
+// git
+
 // git init
 // git add README.md
 // git commit -m "first commit"
