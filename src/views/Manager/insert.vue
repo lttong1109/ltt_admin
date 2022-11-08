@@ -57,6 +57,7 @@
                                 this.$alert(`用户名：${res.username}\n 密码：${res.password}`, '新增账号信息提示', {
                                     confirmButtonText: '确定'
                                 });
+                                this.form = ""
                             }
                         })
                     }else{

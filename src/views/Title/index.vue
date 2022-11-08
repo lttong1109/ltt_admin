@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="title_header">
-      <el-button type="primary" @click="showAdd">新增标题</el-button>
+      <el-button type="primary" @click="showAdd" plain>新增标题</el-button>
     </header>
     <Add :state="state" @cancel="cancel" @success="success"></Add>
     <el-table
@@ -33,7 +33,12 @@
     label="操作">
     <!-- this.$store.state.user.username -->
     <template #default="scope">
-      <el-button size="mini" @click="handleEdit(scope.$index, scope.row)" v-loading.fullscreen.lock="fullscreenLoading">编辑</el-button>
+      <el-button 
+        size="mini" 
+        @click="handleEdit(scope.$index, scope.row)" 
+        v-loading.fullscreen.lock="fullscreenLoading" 
+        plain
+      >编辑</el-button>
       <el-dialog title="" :visible.sync="dialogFormVisible">
         <el-form :model="form" id="okk">
           <el-form-item label="编号：" :label-width="formLabelWidth">
@@ -44,8 +49,8 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="upcancel">取 消</el-button>
-          <el-button type="primary" @click="updateok(scope.$index,scope.row)">确 定</el-button>
+          <el-button type="primary" @click="updateok(scope.$index,scope.row)" plain>确定</el-button>
+          <el-button type="info" @click="upcancel" plain>取消</el-button>
         </div>
       </el-dialog>
     
@@ -53,7 +58,10 @@
       style="margin-left: 10px"
         size="mini"
         type="danger"
-        @click="handleDelete(scope.$index, scope.row)" v-loading.fullscreen.lock="fullscreenLoading">删除</el-button>
+        @click="handleDelete(scope.$index, scope.row)" 
+        v-loading.fullscreen.lock="fullscreenLoading" 
+        plain
+      >删除</el-button>
     </template>
   </el-table-column>
 </el-table>
@@ -116,7 +124,7 @@ components:{
       let keys = Object.keys(this.form);
       this.form.name = newtable.name;
       this.form.id = newtable.id;
-      this.$emit('nameindex',neswtable);
+      this.$emit('nameindex',newtable);
       console.log(newtable)
       console.log(this)
     

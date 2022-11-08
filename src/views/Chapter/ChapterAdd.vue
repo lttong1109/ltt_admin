@@ -14,8 +14,8 @@
                 <el-input v-model="formLabelAlign.chapter_name"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
-                <el-button @click="cancelForm('ruleForm')">取消</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')" plain>确认</el-button>
+                <el-button type="info" @click="cancelForm('ruleForm')" plain>取消</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -103,8 +103,10 @@ export default{
 }
 </script>
 <style>
-.title_add .el-form-item__content{
+.el-form-item__content{
     margin-left: 0 !important;
+    display: flex;
+    justify-content: space-around;
 }
 .mark{
     position: fixed;

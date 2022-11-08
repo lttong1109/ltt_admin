@@ -22,7 +22,7 @@
             </el-table-column>
             <el-table-column fixed = "right"  label="操作" width = "100">
                 <template  #default = "{row}">
-                    <el-button size="mini" type="danger" @click = "remove(row.id)">删除</el-button>
+                    <el-button size="mini" type="danger" @click = "remove(row.id)" plain>删除</el-button>
                 </template>
             </el-table-column>
             

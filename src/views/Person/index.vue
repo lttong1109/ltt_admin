@@ -21,7 +21,7 @@
           <el-descriptions-item label="邮箱 " v-if="user.email"> {{ user.email }}</el-descriptions-item>
           <el-descriptions-item label="邮箱 " v-else>
             <el-input v-model="email" placeholder="请输入邮箱" prop="email"></el-input>
-            <el-button @click="sendmsg">
+            <el-button @click="sendmsg" plain>
               发送验证码
             </el-button>
           </el-descriptions-item>
@@ -42,7 +42,7 @@
                 <el-upload :headers="header" ref="upload" name="avator"
                   action="http://81.68.121.52:8000/api/changesuperavator" :show-file-list="false" :auto-upload="false"
                   :on-change="uploadImg" :on-success="success">
-                  <el-button size="mini" type="primary"> 选择头像
+                  <el-button size="mini" type="primary" plain> 选择头像
                   </el-button>
                 </el-upload>
               </el-row>
@@ -57,8 +57,8 @@
             </div>
           </el-row>
           <span slot="footer" class="dialog-footer">
-            <el-button @click="editAvatarDialog = false">取 消</el-button>
-            <el-button type="primary" @click="saveEditAvatar">确 定</el-button>
+            <el-button type="primary" @click="saveEditAvatar" plain>确定</el-button>
+            <el-button type="info" @click="editAvatarDialog = false" plain>取消</el-button>
           </span>
         </el-dialog>
       </div>

@@ -4,22 +4,23 @@
       :aaa="gettitleid" :bbb="getchapterid"></el-tree>
     <div class="content">
       <header class="Video_header">
-        <el-button type="primary" @click="videoadd" >新增视频</el-button>
+        <el-button type="primary" @click="videoadd" plain>新增视频</el-button>
         <VideoAdd :state="state" @cancel="cancel" @success="success" :getchapterid="getchapterid"></VideoAdd>
       </header>
       <el-table :data="videoData" style="width: 100%" :default-sort="{ prop: 'date', order: 'descending' }">
-        <el-table-column prop="id" label="编号" sortable width="80px"> </el-table-column>
-        <el-table-column prop="name" label="名称" sortable> </el-table-column>
+        <el-table-column prop="id" label="编号" sortable width="75px"> </el-table-column>
+        <el-table-column prop="name" label="名称" sortable width="170px"> </el-table-column>
         <el-table-column prop="mp4_url" label="视频地址" sortable width="170px"> </el-table-column>
         <el-table-column prop="video_permission" label="视频属性" sortable width="100px" :formatter = "format"></el-table-column>
-        <el-table-column prop="create_time" label="创建时间" sortable width="170px"></el-table-column>
-        <el-table-column prop="update_time" label="更新日期" sortable width="170px"></el-table-column>
-        <el-table-column label="操作" width="200px">
+        <el-table-column prop="create_time" label="创建时间" sortable width="150px"></el-table-column>
+        <el-table-column prop="update_time" label="更新日期" sortable width="150px"></el-table-column>
+        <el-table-column label="操作" >
           <template #default="scope">
             <el-button 
               size="mini" 
               @click="handleEdit(scope.$index, scope.row)"
               v-loading.fullscreen.lock="fullscreenLoading"
+              plain
             >编辑</el-button>
             <el-dialog title="" :visible.sync="dialogFormVisible">
               <el-form :model="form">
@@ -32,13 +33,26 @@
                 <el-form-item class="tips">提示：如需修改视频内容，请删除后重新上传</el-form-item>
               </el-form>
               <div slot="footer" class="dialog-footer">
-                <el-button @click="upcancel()">取 消</el-button>
-                <el-button type="primary" @click="updateok(scope.$index, scope.row)">确 定</el-button>
+                <el-button type="primary" @click="updateok(scope.$index, scope.row)" plain>确定</el-button>
+                <el-button type="info" @click="upcancel()" plain>取消</el-button>
               </div>
             </el-dialog>
 
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)"
-              v-loading.fullscreen.lock="fullscreenLoading" style="margin-left: 10px;">删除</el-button>
+            <el-button 
+              size="mini" 
+              type="danger" 
+              @click="handleDelete(scope.$index, scope.row)"
+              v-loading.fullscreen.lock="fullscreenLoading" 
+              style="margin-left: 10px;"
+              plain
+            >删除</el-button>
+            <el-button 
+              size="mini" 
+              type="success" 
+              style="margin-left: 10px;"
+              plain
+              @click="play"
+            >播放视频</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -47,6 +61,8 @@
 </template>
 <script>
 import VideoAdd from './videoAdd';
+// import DPlayer from 'dplayer';
+// const dp = new DPlayer(options);
 export default {
   name: "Video",
   data() {
@@ -128,6 +144,7 @@ export default {
       }
       this.getList();
     },
+
     getList() {
       this.$http({
         method: "GET",
@@ -173,6 +190,7 @@ export default {
               message: res.msg
             })
             this.getList();
+            this.fullscreenLoading = false;
           }
         })
       })
@@ -245,6 +263,11 @@ export default {
       },
     success(){
       this.getList();
+    },
+
+    //播放视频
+    play(){
+      console.log(this.mp4_url)
     }
 
   }
@@ -266,7 +289,7 @@ export default {
 }
 
 .content {
-  width: 1028px;
+  width: 1050px;
 }
 
 .el-dialog {
@@ -282,10 +305,14 @@ export default {
   box-shadow: none !important;
   margin-top: 0vh !important;
 }
+.dialog-footer{
+  display: flex;
+  justify-content: space-around;
+}
 
 .el-tree {
   width: 210px;
-  padding: 20px 10px;
+  padding: 20px 5px;
 }
 
 .tips {

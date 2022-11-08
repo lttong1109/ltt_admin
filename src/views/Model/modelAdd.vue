@@ -14,8 +14,8 @@
                 <el-input v-model="formLabelAlign.model_name"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
-                <el-button @click="cancelForm('ruleForm')">取消</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')" plain>确认</el-button>
+                <el-button type="info" @click="cancelForm('ruleForm')" plain>取消</el-button>
             </el-form-item>
         </el-form>
     </div>

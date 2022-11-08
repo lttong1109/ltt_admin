@@ -6,7 +6,12 @@ import 'element-ui/lib/theme-chalk/index.css';
 import "normalize.css"
 import axios from '@/axios';
 import Cookie from 'js-cookie';
-import store from '@/store'
+import store from '@/store';
+
+// import VueDPlayer from 'vue-dplayer';
+// import 'vue-dplayer/vue-dplayer.css';
+ 
+// Vue.use(VueDPlayer);
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);    //vue use原理

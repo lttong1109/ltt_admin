@@ -28,7 +28,8 @@
             </div>
             <el-button type="primary" 
             class="login-submit"
-            @click="logindl">登录</el-button>
+            @click="logindl"
+            >登录</el-button>
         </div>
     </div>
 </template>

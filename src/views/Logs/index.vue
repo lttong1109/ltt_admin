@@ -64,9 +64,6 @@ data() {
           
       })
       },
-      counts(){
-        return this.count
-      },
 
   },
 };

@@ -25,8 +25,8 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">确认</el-button>
-                <el-button @click="cancelForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">取消</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading" plain>确认</el-button>
+                <el-button type="info" @click="cancelForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading" plain>取消</el-button>
             </el-form-item>
         </el-form>
     </div>

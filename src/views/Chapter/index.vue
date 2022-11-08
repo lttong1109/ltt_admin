@@ -11,7 +11,7 @@
                 </el-select>
             </div>
             <div>
-                <el-button type="primary" @click="new_chapter">新增章节</el-button>
+                <el-button type="primary" @click="new_chapter" plain>新增章节</el-button>
                 <ChapterAdd :Chapter_id = "Chapter_value" :state = "state" @cancel = "cancel" @success = "success"></ChapterAdd>
             </div>
         </header>
@@ -31,6 +31,7 @@
                         size="mini" 
                         @click="handleEdit(scope.$index, scope.row)" 
                         v-loading.fullscreen.lock="fullscreenLoading"
+                        plain
                     >编辑</el-button>               
                     <el-dialog title="" :visible.sync="dialogFormVisible">
                         <el-form :model="form" id="okk">
@@ -42,8 +43,8 @@
                             </el-form-item>
                         </el-form>
                         <div slot="footer" class="dialog-footer">
-                            <el-button @click="chaptercancel">取 消</el-button>
-                            <el-button type="primary" @click="chapterupdate(scope.$index,scope.row)">确 定</el-button>
+                            <el-button type="primary" @click="chapterupdate(scope.$index,scope.row)" plain>确定</el-button>
+                            <el-button type="info" @click="chaptercancel" plain>取消</el-button>
                         </div>
                     </el-dialog>
                     <el-button 
@@ -51,7 +52,7 @@
                         size="mini" 
                         type="danger" 
                         @click="handleDelete(scope.$index, scope.row)" 
-                        v-loading.fullscreen.lock="fullscreenLoading">删除</el-button>
+                        v-loading.fullscreen.lock="fullscreenLoading" plain>删除</el-button>
                 </template>
             </el-table-column>
         </el-table>

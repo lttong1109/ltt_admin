@@ -1,7 +1,7 @@
 <template>
     <div class="viphtml">
         <header class="vip_header">
-        <el-button type="primary" @click="vipAdd">新增会员</el-button>
+        <el-button type="primary" @click="vipAdd" plain>新增会员</el-button>
       </header>
       <VipAdd :state="state" @cancel="cancel" @success="success"></VipAdd>
       <el-table
@@ -55,7 +55,8 @@
         <el-button 
           size="mini" 
           @click="handleEdit(scope.$index, scope.row)" 
-          v-loading.fullscreen.lock="fullscreenLoading">
+          v-loading.fullscreen.lock="fullscreenLoading"
+          plain>
           编辑</el-button>
         <el-dialog title="" :visible.sync="dialogFormVisible">
           <el-form :model="form" id="okk">
@@ -79,8 +80,8 @@
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
-            <el-button @click="vipcancel">取 消</el-button>
-            <el-button type="primary" @click="vipupdate(scope.$index,scope.row)">确 定</el-button>
+            <el-button type="primary" @click="vipupdate(scope.$index,scope.row)" plain>确定</el-button>
+            <el-button type="info" @click="vipcancel" plain>取消</el-button>
           </div>
         </el-dialog>
       
@@ -89,7 +90,7 @@
           size="mini"
           type="danger"
           @click="handleDelete(scope.$index, scope.row)" 
-          v-loading.fullscreen.lock="fullscreenLoading">删除</el-button>
+          v-loading.fullscreen.lock="fullscreenLoading" plain>删除</el-button>
       </template>
     </el-table-column>
   </el-table>
