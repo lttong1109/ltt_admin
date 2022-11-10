@@ -126,8 +126,8 @@ export default{
             this.videocont['name']=this.formLabelAlign.name;
             this.videocont['video_permission']=this.formLabelAlign.video_permission;
             this.videocont['chapter_id']=this.getchapterid;
-            this.$refs.upload.submit()
-            this.$parent.getList()
+            this.$refs.upload.submit();
+            this.$parent.getList();
         },
         a(e){
             let file = e.target.files[0];

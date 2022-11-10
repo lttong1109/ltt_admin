@@ -9,8 +9,8 @@
       </header>
       <el-table :data="videoData" style="width: 100%" :default-sort="{ prop: 'date', order: 'descending' }">
         <el-table-column prop="id" label="编号" sortable width="75px"> </el-table-column>
-        <el-table-column prop="name" label="名称" sortable width="170px"> </el-table-column>
-        <el-table-column prop="mp4_url" label="视频地址" sortable width="170px"> </el-table-column>
+        <el-table-column prop="name" label="名称" sortable width="150px"> </el-table-column>
+        <el-table-column prop="mp4_url" label="视频地址" sortable width="160px"> </el-table-column>
         <el-table-column prop="video_permission" label="视频属性" sortable width="100px" :formatter = "format"></el-table-column>
         <el-table-column prop="create_time" label="创建时间" sortable width="150px"></el-table-column>
         <el-table-column prop="update_time" label="更新日期" sortable width="150px"></el-table-column>
@@ -51,17 +51,27 @@
               type="success" 
               style="margin-left: 10px;"
               plain
-              @click="play"
+              @click="play(scope.$index, scope.row)"
             >播放视频</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
+    <div id="dplayer" ref="playvideo"></div>
+    <!-- <el-button 
+      class="closeplay"
+      size="mini" 
+      type="success" 
+      style="margin-left: 10px;" 
+      plain 
+      v-if="showvideo"
+      @click="close"
+    >结束播放</el-button> -->
   </div>
 </template>
 <script>
 import VideoAdd from './videoAdd';
-// import DPlayer from 'dplayer';
+import DPlayer from 'dplayer';
 // const dp = new DPlayer(options);
 export default {
   name: "Video",
@@ -69,6 +79,7 @@ export default {
     return {
       videoData: [],
       state: false,
+      showvideo:false,
       fullscreenLoading: false,
       dialogFormVisible: false,
       value: '',
@@ -266,8 +277,21 @@ export default {
     },
 
     //播放视频
-    play(){
-      console.log(this.mp4_url)
+    play(index,row) {
+      this.showvideo = true;
+      let videourl = this.videoData[index].mp4_url;
+      var num = videourl.indexOf('.');
+      var newvideourl = videourl.slice(0,num)
+      console.log(newvideourl)
+      const dp = new DPlayer({
+        container: this.$refs.playvideo,
+        video: {
+          url: `http://81.68.121.52:9000/api/videoplay?path=${newvideourl}`,
+        },
+      });
+    },
+    close(){
+      this.showvideo = false
     }
 
   }
@@ -289,7 +313,7 @@ export default {
 }
 
 .content {
-  width: 1050px;
+  width: 1040px;
 }
 
 .el-dialog {
@@ -304,6 +328,7 @@ export default {
   padding-top: 40px;
   box-shadow: none !important;
   margin-top: 0vh !important;
+  z-index: 999;
 }
 .dialog-footer{
   display: flex;
@@ -311,8 +336,9 @@ export default {
 }
 
 .el-tree {
-  width: 210px;
+  width: 230px;
   padding: 20px 5px;
+  margin-right: 10px;
 }
 
 .tips {
@@ -321,4 +347,22 @@ export default {
   color: #ff5546;
   font-size: 12px;
 }
+#dplayer{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: 800px;
+  height: 500px;
+  z-index: 99;
+}
+/* .closeplay{
+  position: absolute;
+  left: 72.8%;
+  top: 4%;
+  transform: translate(-50%,-50%);
+  width: 80px;
+  height: 30px;
+  z-index: 999;
+} */
 </style>

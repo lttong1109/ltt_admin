@@ -9,9 +9,12 @@
             <el-table-column prop="vip" label="会员名" sortable width="120px"></el-table-column>
             <el-table-column prop="total_amount" label="交易金额" sortable  width="120px"></el-table-column>
             <el-table-column prop="qs_trade_no" label="订单编号" sortable></el-table-column>
-            <el-table-column prop="pay_state" label="交易状态" sortable :formatter = "format"></el-table-column>
+            <el-table-column prop="pay_state" label="交易状态" sortable  :formatter = "format"></el-table-column>
             <el-table-column prop="create_time" label="交易时间" sortable></el-table-column>
             <el-table-column prop="update_time" label="更新时间" sortable></el-table-column>
+            <el-table-column  label="操作" sortable #default="scope">
+                <el-button size="mini"  type="success" plain @click="update(scope.$index,scope.row)">刷新</el-button>
+            </el-table-column>
             <!-- <el-table-column prop="open_vip" label="是否开会员" sortable></el-table-column> -->
         </el-table>
         <div class="bottom">
@@ -43,16 +46,17 @@ export default {
     },
     methods: {
         format(row, column, cellValue){
+            // console.log(cellValue)
             if(cellValue == 'TRADE_CREATE'){
                 return "商家订单创建，等待创建支付宝订单";
             }else if(cellValue == 'WAIT_BUYER_PAY'){
                 return "交易创建，等待买家付款"
-            }else if(cellValue == 'TRADE_CLOSED '){
-                return "交易创建，等待买家付款"
+            }else if(cellValue == 'TRADE_CLOSED'){
+                return "未付款交易超时关闭，或支付完成后全额退款"
             }else if(cellValue == 'TRADE_SUCCESS'){
-                return "交易创建，等待买家付款"
+                return "交易支付成功"
             }else if(cellValue == 'TRADE_FINISHED'){
-                return "交易创建，等待买家付款"
+                return "交易结束，不可退款"
             }
         },
         // 支付状态
@@ -83,7 +87,29 @@ export default {
                     this.$message.error(response.msg);
                 }
             })
-        },  
+        },
+        update(index,row) {
+            let trade_no = this.zfbData[index].qs_trade_no
+            // console.log(trade_no)
+            let formData = new FormData();
+            formData.append('trade_no', trade_no)
+            this.$http({
+                method: "POST",
+                url: `http://81.68.121.52:8000/api/alipay_order_update`,
+                data: formData
+            }).then(res => {
+                console.log(res.data);
+                let response = res.data;
+                if (response.status == 'success') {
+                    this.$message({
+                        type:'success',
+                        message: "订单信息已更新"
+                    })
+                } else {
+                    this.$message.error(response.msg +','+ response.sub_msg);
+                }
+            })
+        }  
     },
 };
 
